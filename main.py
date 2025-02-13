@@ -1,27 +1,37 @@
-def main():
-    with open("books/frankenstein.txt") as f:
+def main(location):
+    with open(location) as f:
         file_contents = f.read()
-        
-        #words = file_contents.split()
-        #print(len(words))
-        return file_contents
-        
+    
+    words = file_contents.split()
+    print(f"--- Begin report of {location} ---")
+    print(f"{len(words)} words found in the document")
+    print(" ")
+    return file_contents
+ 
+def sort_on(dict):
+    return  list(dict.keys())[0]  
+       
 def count(file_contents):
-    #Dictionary of all letters
-    #alpha = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0, 's':0, 't':0, 'u':0, 'v':0, 'w':0, 'x':0, 'y':0, 'z':0, ' ':0, '':0, '.':0, ',':0, '!':0, '?':0, '@':0}    
-    #Whole book coming in.
-    alpha = {}  
+    alpha = {} 
+    final_numbers = []
+    
     #print(file_contents)
     for c in file_contents:
         alpha[c.lower()] = alpha.get(c.lower(), 0) + 1
-   #     if c.lower() in alpha:
-   #         #value = alpha[c.lower()]
-   #         #value += 1
-   #         alpha[c.lower()] += 1
-   #     else:
-   #         alpha[c.lower()] = 1
 
-    return alpha
+    #Create list of dictionaries.
+    #final_numbers = [{k: alpha[k]} for k in alpha]
+    for k in alpha:
+        final_numbers.append({k:alpha[k]})
+        
+    #Sort dictionary
+    final_numbers.sort(reverse=True, key=sort_on)
+    
+    #print only letters 
+    for i in final_numbers:
+       print(f"The '{list(i.keys())[0]}' character was found {list(i.values())[0]} times")
+       if 'a' in list(i.keys()):
+            return True
 
 
-print(count(main()))
+count(main("books/frankenstein.txt"))
